@@ -1,0 +1,13 @@
+{
+  "name": "gameboy-instruction-generator",
+  "version": "1.0.0",
+  "description": "Translates JSON of instruction set into JS functions",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Bell",
+  "license": "ISC",
+  "dependencies": {}
+}
