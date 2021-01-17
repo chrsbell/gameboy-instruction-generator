@@ -1,7 +1,7 @@
 {
   "name": "gameboy-instruction-generator",
   "version": "1.0.0",
-  "description": "Translates JSON of instruction set into JS functions",
+  "description": "Translates JSON of z80 instruction set into JS function signatures",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -9,5 +9,7 @@
   },
   "author": "Chris Bell",
   "license": "ISC",
-  "dependencies": {}
+  "devDependencies": {
+    "@types/node": "^14.14.21"
+  }
 }
