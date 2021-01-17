@@ -388,35 +388,35 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
   if (opcode) {
     opcodes += `
     ${docs[mnemonic]}
-    ${opcode}: (cpu: CPU): number => {
-      Instructions.map[${key}].bind(cpu);
+    const ${opcode} = (cpu: CPU): number => {
+      Instructions.map[${key}].apply(cpu);
       return ${cycles.join(" || ")};
     },`;
-    mapping += `${key}: z80.${opcode},\n`;
+    mapping += `${key}: ${opcode},\n`;
   }
   return [opcodes, mapping];
 };
 
 const main = () => {
-  let opcodes = `const z80 = {`;
-  let map = `const opcodeMap = {`;
-  let cbmap = `const opcodeCBMap = {`;
+  let opcodes = ``;
+  let map = `export default {`;
+  let cbmap = `const cbOpcodes = {`;
   for (let key in instructions.unprefixed) {
     [opcodes, map] = addOpcode(instructions.unprefixed, map, opcodes, key);
   }
   for (let key in instructions.cbprefixed) {
     [opcodes, cbmap] = addOpcode(instructions.cbprefixed, cbmap, opcodes, key);
   }
-  opcodes += "}\n";
+  opcodes += "\n";
   map += "}\n";
   cbmap += "}";
   fs.writeFileSync(
     path.join(__dirname, "generated", "z80.ts"),
-    `${opcodes}
+    `import Instructions from './Instructions';
+    import CPU from './CPU';
+     ${opcodes}
      ${map}
-     ${cbmap}
-
-     export { z80, opcodeMap, opcodeCBMap };`
+     ${cbmap}`
   );
 };
 
