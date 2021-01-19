@@ -4,6 +4,10 @@ const instructions = require("./instructions");
 
 const params = "@param - CPU class.";
 const returns = "@returns - Number of system clock ticks used.";
+const illegal = `
+/**
+ * Invalid opcode.
+ */`;
 
 let docs = {
   SBC: `
@@ -38,6 +42,12 @@ let docs = {
    * ${params}
    * ${returns}
    */`,
+  LDH: `
+   /**
+    * Load data into the register.
+    * ${params}
+    * ${returns}
+    */`,
   SUB: `
    /**
     * Subtract.
@@ -268,6 +278,23 @@ let docs = {
      * ${params}
    * ${returns}
    */`,
+  PREFIX: `
+   /**
+    * Execute a CB-prefixed instruction.
+    * ${params}
+    * ${returns}
+    */`,
+  ILLEGAL_D3: illegal,
+  ILLEGAL_DB: illegal,
+  ILLEGAL_DD: illegal,
+  ILLEGAL_E3: illegal,
+  ILLEGAL_E4: illegal,
+  ILLEGAL_EB: illegal,
+  ILLEGAL_EC: illegal,
+  ILLEGAL_ED: illegal,
+  ILLEGAL_F4: illegal,
+  ILLEGAL_FC: illegal,
+  ILLEGAL_FD: illegal,
 };
 
 const makeFuncName = (op1, op2, mnemonic, operands) => {
@@ -316,6 +343,7 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     case "ADD":
     case "ADC":
     case "LD":
+    case "LDH":
       opcode = makeFuncName("into", "from", mnemonic, operands);
       break;
     case "SUB":
@@ -377,12 +405,16 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     case "RLA":
     case "RRCA":
     case "RRA":
+    case "PREFIX":
       opcode = mnemonic;
       break;
     case "SET":
     case "RES":
       opcode = `${mnemonic}_bit${operands[0].name}_of_${operands[1].name}`;
+      break;
     default:
+      // illegal opcode
+      opcode = mnemonic;
       break;
   }
   if (opcode) {
