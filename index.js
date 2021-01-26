@@ -6,8 +6,7 @@ const params = "@param - CPU class.";
 const returns = "@returns - Number of system clock ticks used.";
 const illegal = `
 /**
- * Invalid opcode.
- */`;
+ * Invalid opcode.`;
 
 let docs = {
   SBC: `
@@ -16,116 +15,97 @@ let docs = {
  * ${params}
    * ${returns}
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   JP: `
   /**
    * Unconditional jump to the absolute address specified by the 16-bit operand
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   POP: `
   /**
    * Pops to the 16-bit register, data from the stack memory.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   PUSH: `
   /**
    * Push to the stack memory, data from the 16-bit register.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   LD: `
   /**
    * Load data into the register.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   LDH: `
    /**
     * Load data into the register.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   SUB: `
    /**
     * Subtract.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   ADC: `
    /**
     * Add with carry flag.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   ADD: `
   /**
    * Add.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   NOP: `
   /**
    * No operation.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   AND: `
   /**
    * Logical AND.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   OR: `
   /**
    * Logical OR.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   XOR: `
   /**
   * Logical XOR.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   CP: `
   /**
    * Compare A with regiseter.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   INC: `
   /**
   * Increment register.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   DEC: `
   /**
    * Decrement register.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   SWAP: `
   /**
   * Swap upper and lower nibbles.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   DAA: `
   /**
    * Decimal adjust register A.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   CPL: `
     /**
     * Complement A register. (Flip all bits.)
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   CCF: `
     /**
      * Complement carry flag.
@@ -133,157 +113,136 @@ let docs = {
      * If C flag is reset, then set it.
      * ${params}
      * ${returns}
-     */`,
+`,
   SCF: `
     /**
     *  Set Carry flag.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   HALT: `
     /**
      * Disables interrupt handling.
      * ${params}
      * ${returns}
-     */`,
+`,
   STOP: `
     /**
     *  Halt CPU & LCD display until button pressed.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   JR: `
   /**
    * Unconditional jump to the relative address.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   CALL: `
   /**
    * Function call to the absolute address.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   RST: `
    /**
     * Unconditional function call to the absolute fixed address
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   RET: `
   /**
    * Return from a function.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   RETI: `
    /**
     * Return from a function.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   DI: `
    /**
     * Disables interrupt handling.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   EI: `
    /**
     * Disables interrupt handling.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   RLCA: `
     /**
     * Rotate A left. Old bit 7 to Carry flag.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   RLA: `
     /**
      * Rotate A left through Carry flag.
      * ${params}
      * ${returns}
-     */`,
+`,
   RRCA: `
     /**
     * Rotate A right. Old bit 0 to Carry flag.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   RRA: `
     /**
      * Rotate A right through Carry flag.
      * ${params}
      * ${returns}
-     */`,
+`,
   RLC: `
     /**
     * Rotate n left. Old bit 7 to Carry flag.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   RL: `
     /**
      * Rotate n left through Carry flag.
      * ${params}
      * ${returns}
-     */`,
+`,
   RRC: `
     /**
     * Rotate n right. Old bit 0 to Carry flag.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   RR: `
     /**
      * Rotate n right through Carry flag.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   SLA: `
     /**
     * Shift n left into Carry. LSB of n set to 0.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   SRA: `
     /**
      * Shift n right into Carry. MSB doesn't change.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   SRL: `
     /**
     * Shift n right into Carry. MSB set to 0.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   BIT: `
     /**
     * Test bit in register
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   SET: `
   /**
    * Set bit b in register r.
    * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   RES: `
    /**
     * Reset bit b in register r.
      * ${params}
-   * ${returns}
-   */`,
+   * ${returns}`,
   PREFIX: `
    /**
     * Execute a CB-prefixed instruction.
     * ${params}
-    * ${returns}
-    */`,
+    * ${returns}`,
   ILLEGAL_D3: illegal,
   ILLEGAL_DB: illegal,
   ILLEGAL_DD: illegal,
@@ -337,7 +296,7 @@ const makeFuncName = (op1, op2, mnemonic, operands) => {
 };
 
 const addOpcode = (instructionSet, mapping, opcodes, key) => {
-  const { mnemonic, cycles, operands } = instructionSet[key];
+  const { mnemonic, cycles, operands, flags } = instructionSet[key];
   let opcode;
   switch (mnemonic) {
     case "ADD":
@@ -417,9 +376,16 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       opcode = mnemonic;
       break;
   }
+  const flagsAffected = Object.keys(flags).filter((flag) => {
+    // console.log(flags[flag]);
+    return flags[flag] !== "-";
+  });
+  debugger;
   if (opcode) {
     opcodes += `
     ${docs[mnemonic]}
+    * Affected flags: ${flagsAffected.join(", ")}
+    */
     const ${opcode} = (cpu: CPU): number => {
       Instructions.map[${key}].apply(cpu);
       return ${cycles.join(" || ")};
