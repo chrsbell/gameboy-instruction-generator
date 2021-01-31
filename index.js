@@ -388,7 +388,7 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     */
     function ${opcode} (this: CPU): number {
       Instructions.map[${key}].call(this);
-      this.PC += ${bytes};
+      this.PC.add(${bytes});
       return ${cycles.join(" || ")};
     };`;
     mapping += `${key}: ${opcode},\n`;
