@@ -296,7 +296,7 @@ const makeFuncName = (op1, op2, mnemonic, operands) => {
 };
 
 const addOpcode = (instructionSet, mapping, opcodes, key) => {
-  const { mnemonic, cycles, operands, flags } = instructionSet[key];
+  const { mnemonic, bytes, cycles, operands, flags } = instructionSet[key];
   let opcode;
   switch (mnemonic) {
     case "ADD":
@@ -386,10 +386,11 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     ${docs[mnemonic]}
     * Affected flags: ${flagsAffected.join(", ")}
     */
-    const ${opcode} = (cpu: CPU): number => {
-      Instructions.map[${key}].apply(cpu);
+    function ${opcode} (this: CPU): number {
+      Instructions.map[${key}].call(this);
+      this.PC += ${bytes};
       return ${cycles.join(" || ")};
-    },`;
+    };`;
     mapping += `${key}: ${opcode},\n`;
   }
   return [opcodes, mapping];
