@@ -305,8 +305,14 @@ const makeFuncName = (op1, op2, mnemonic, operands) => {
 
 const addOpcode = (instructionSet, mapping, opcodes, key) => {
   let { mnemonic, bytes, cycles, operands, flags } = instructionSet[key];
+  key = key.toLowerCase();
   let opcode;
-  let isJumpInstr = false;
+  let isConditional = false;
+  let immediate = "i";
+  if (operands.length && !operands[0].immediate) {
+    immediate = "m";
+  }
+
   switch (mnemonic) {
     case "ADD":
     case "ADC":
@@ -331,21 +337,36 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     case "OR":
     case "XOR":
     case "CP":
-      opcode = `${mnemonic}_A_with_${operands[0].name}`;
+      opcode = `${mnemonic}_A_with_${operands[0].name}_${immediate}`;
       break;
     case "JP":
     case "JR":
-      isJumpInstr = true;
-      if (operands.length === 2) {
-        mnemonic += "_C";
+      if (operands.length === 1) {
+        opcode = `${mnemonic}_${operands.map((op) => op.name).join("_")}`;
+      } else {
+        isConditional = true;
+        opcode = `${mnemonic}_C_${operands.map((op) => op.name).join("_")}`;
       }
-      opcode = makeFuncName("to", "", mnemonic, operands);
       break;
     case "RET":
+      if (operands.length === 1) {
+        opcode = `${mnemonic}_${operands.map((op) => op.name).join("_")}`;
+      } else {
+        isConditional = true;
+        opcode = `${mnemonic}_C_${operands.map((op) => op.name).join("_")}`;
+      }
+      break;
     case "RETI":
-      opcode = makeFuncName("to", "", mnemonic, operands);
+      opcode = mnemonic;
       break;
     case "CALL":
+      if (operands.length === 1) {
+        opcode = mnemonic;
+      } else {
+        isConditional = true;
+        opcode = `${mnemonic}_C_${operands.map((op) => op.name).join("_")}`;
+      }
+      break;
     case "RST":
       opcode = makeFuncName("to", "from", mnemonic, operands);
       break;
@@ -362,7 +383,6 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     case "SRA":
     case "SRL":
     case "SWAP":
-      let immediate = operands[0].immediate ? "i" : "m";
       opcode = `${mnemonic}_${operands[0].name}_${immediate}`;
       break;
     case "DAA":
@@ -396,13 +416,13 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     return flags[flag] !== "-";
   });
   if (opcode) {
-    if (isJumpInstr) {
+    if (isConditional) {
       opcodes += `
       ${docs[mnemonic]}
       * Affected flags: ${flagsAffected.join(", ")}
       */
       function ${opcode} (this: CPU): number {
-        let condition: boolean = Instructions.map[${key}].call(this);
+        let condition: boolean = Instructions.map['${key}'].call(this);
         this.PC.add(${bytes});
         // if condition passed, elapse larger number of m cycles
         return condition ? ${cycles[0]} : ${cycles[1]};
@@ -414,7 +434,7 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       * Affected flags: ${flagsAffected.join(", ")}
       */
       function ${opcode} (this: CPU): number {
-        Instructions.map[${key}].call(this);
+        Instructions.map['${key}'].call(this);
         this.PC.add(${bytes});
         return ${cycles.join(" || ")};
       };`;
@@ -440,7 +460,7 @@ const main = () => {
   fs.writeFileSync(
     path.join(__dirname, "generated", "z80.ts"),
     `import Instructions from './Instructions';
-    import CPU from './CPU';
+    import CPU from '../';
      ${opcodes}
      ${map}
      ${cbmap}`
