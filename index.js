@@ -380,14 +380,13 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     // console.log(flags[flag]);
     return flags[flag] !== "-";
   });
-  debugger;
   if (opcode) {
     opcodes += `
     ${docs[mnemonic]}
     * Affected flags: ${flagsAffected.join(", ")}
     */
     function ${opcode} (this: CPU): number {
-      Instructions.map[${key}].call(this);
+      Instructions.map['${key.toLowerCase()}'].call(this);
       this.PC.add(${bytes});
       return ${cycles.join(" || ")};
     };`;
@@ -412,7 +411,7 @@ const main = () => {
   fs.writeFileSync(
     path.join(__dirname, "generated", "z80.ts"),
     `import Instructions from './Instructions';
-    import CPU from './CPU';
+    import CPU from '../';
      ${opcodes}
      ${map}
      ${cbmap}`
