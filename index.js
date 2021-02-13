@@ -12,13 +12,16 @@ let docs = {
   SBC: `
   /**
    * Subtract with carry flag.
- * ${params}
-   * ${returns}
    * ${params}
    * ${returns}`,
   JP: `
   /**
-   * Unconditional jump to the absolute address specified by the 16-bit operand
+   * Unconditional jump to the absolute address specified by the 16-bit operand.
+   * ${params}
+   * ${returns}`,
+  JP_C: `
+  /**
+   * Conditional jump to the absolute address specified by the 16-bit operand.
    * ${params}
    * ${returns}`,
   POP: `
@@ -135,6 +138,11 @@ let docs = {
    * Unconditional jump to the relative address.
    * ${params}
    * ${returns}`,
+  JR_C: `
+   /**
+    * Conditional jump to the relative address.
+    * ${params}
+    * ${returns}`,
   CALL: `
   /**
    * Function call to the absolute address.
@@ -296,8 +304,9 @@ const makeFuncName = (op1, op2, mnemonic, operands) => {
 };
 
 const addOpcode = (instructionSet, mapping, opcodes, key) => {
-  const { mnemonic, bytes, cycles, operands, flags } = instructionSet[key];
+  let { mnemonic, bytes, cycles, operands, flags } = instructionSet[key];
   let opcode;
+  let isJumpInstr = false;
   switch (mnemonic) {
     case "ADD":
     case "ADC":
@@ -326,6 +335,12 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       break;
     case "JP":
     case "JR":
+      isJumpInstr = true;
+      if (operands.length === 2) {
+        mnemonic += "_C";
+      }
+      opcode = makeFuncName("to", "", mnemonic, operands);
+      break;
     case "RET":
     case "RETI":
       opcode = makeFuncName("to", "", mnemonic, operands);
@@ -380,17 +395,30 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
     // console.log(flags[flag]);
     return flags[flag] !== "-";
   });
-  debugger;
   if (opcode) {
-    opcodes += `
-    ${docs[mnemonic]}
-    * Affected flags: ${flagsAffected.join(", ")}
-    */
-    function ${opcode} (this: CPU): number {
-      Instructions.map[${key}].call(this);
-      this.PC.add(${bytes});
-      return ${cycles.join(" || ")};
-    };`;
+    if (isJumpInstr) {
+      opcodes += `
+      ${docs[mnemonic]}
+      * Affected flags: ${flagsAffected.join(", ")}
+      */
+      function ${opcode} (this: CPU): number {
+        let condition: boolean = Instructions.map[${key}].call(this);
+        this.PC.add(${bytes});
+        // if condition passed, elapse larger number of m cycles
+        return condition ? ${cycles[0]} : ${cycles[1]};
+      };
+      `;
+    } else {
+      opcodes += `
+      ${docs[mnemonic]}
+      * Affected flags: ${flagsAffected.join(", ")}
+      */
+      function ${opcode} (this: CPU): number {
+        Instructions.map[${key}].call(this);
+        this.PC.add(${bytes});
+        return ${cycles.join(" || ")};
+      };`;
+    }
     mapping += `${key}: ${opcode},\n`;
   }
   return [opcodes, mapping];
