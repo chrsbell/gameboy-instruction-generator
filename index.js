@@ -170,7 +170,7 @@ let docs = {
     * ${returns}`,
   EI: `
    /**
-    * Disables interrupt handling.
+    * Enables interrupt handling.
     * ${params}
     * ${returns}`,
   RLCA: `
@@ -341,7 +341,7 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       break;
     case "JP":
     case "JR":
-      if (operands.length === 1) {
+      if (operands.length <= 1) {
         opcode = `${mnemonic}_${operands.map((op) => op.name).join("_")}`;
       } else {
         isConditional = true;
@@ -349,18 +349,18 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       }
       break;
     case "RET":
-      if (operands.length === 1) {
-        opcode = `${mnemonic}_${operands.map((op) => op.name).join("_")}`;
+      if (!operands.length) {
+        opcode = `${mnemonic}`;
       } else {
         isConditional = true;
-        opcode = `${mnemonic}_C_${operands.map((op) => op.name).join("_")}`;
+        opcode = `${mnemonic}_C_${operands[0].name}`;
       }
       break;
     case "RETI":
       opcode = mnemonic;
       break;
     case "CALL":
-      if (operands.length === 1) {
+      if (operands.length <= 1) {
         opcode = mnemonic;
       } else {
         isConditional = true;
@@ -422,10 +422,14 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       * Affected flags: ${flagsAffected.join(", ")}
       */
       function ${opcode} (this: CPU): number {
-        let condition: boolean = Instructions.map['${key}'].call(this);
-        this.PC.add(${bytes});
+        let condition: boolean = OpcodeMap['${key}'].call(this);
+        if (!condition) {
+          // add the default increment to PC
+          this.PC.add(${bytes});
+          return ${cycles[1]};
+        }
         // if condition passed, elapse larger number of m cycles
-        return condition ? ${cycles[0]} : ${cycles[1]};
+        return ${cycles[0]};
       };
       `;
     } else {
@@ -434,7 +438,7 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       * Affected flags: ${flagsAffected.join(", ")}
       */
       function ${opcode} (this: CPU): number {
-        Instructions.map['${key}'].call(this);
+        OpcodeMap['${key}'].call(this);
         this.PC.add(${bytes});
         return ${cycles.join(" || ")};
       };`;
