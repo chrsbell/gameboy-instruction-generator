@@ -40,19 +40,19 @@ let docs = {
    * ${params}
    * ${returns}`,
   LDH: `
-   /**
-    * Load data into the register.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Load data into the register.
+   * ${params}
+   * ${returns}`,
   SUB: `
-   /**
-    * Subtract.
-     * ${params}
+  /**
+   * Subtract.
+   * ${params}
    * ${returns}`,
   ADC: `
-   /**
-    * Add with carry flag.
-     * ${params}
+  /**
+   * Add with carry flag.
+   * ${params}
    * ${returns}`,
   ADD: `
   /**
@@ -77,8 +77,8 @@ let docs = {
   XOR: `
   /**
   * Logical XOR.
-   * ${params}
-   * ${returns}`,
+  * ${params}
+  * ${returns}`,
   CP: `
   /**
    * Compare A with regiseter.
@@ -86,7 +86,7 @@ let docs = {
    * ${returns}`,
   INC: `
   /**
-  * Increment register.
+   * Increment register.
    * ${params}
    * ${returns}`,
   DEC: `
@@ -96,7 +96,7 @@ let docs = {
    * ${returns}`,
   SWAP: `
   /**
-  * Swap upper and lower nibbles.
+   * Swap upper and lower nibbles.
    * ${params}
    * ${returns}`,
   DAA: `
@@ -105,136 +105,131 @@ let docs = {
    * ${params}
    * ${returns}`,
   CPL: `
-    /**
-    * Complement A register. (Flip all bits.)
-    * ${params}
-    * ${returns}`,
+  /**
+   * Complement A register. (Flip all bits.)
+   * ${params}
+   * ${returns}`,
   CCF: `
-    /**
-     * Complement carry flag.
-     * If C flag is set, then reset it.
-     * If C flag is reset, then set it.
-     * ${params}
-     * ${returns}
-`,
+  /**
+   * Complement carry flag.
+   * If C flag is set, then reset it.
+   * If C flag is reset, then set it.
+   * ${params}
+   * ${returns}`,
   SCF: `
-    /**
-    *  Set Carry flag.
-    * ${params}
-    * ${returns}`,
+  /**
+   *  Set Carry flag.
+   * ${params}
+   * ${returns}`,
   HALT: `
-    /**
-     * Disables interrupt handling.
-     * ${params}
-     * ${returns}
-`,
+  /**
+   * Disables interrupt handling.
+   * ${params}
+   * ${returns}`,
   STOP: `
-    /**
-    *  Halt CPU & LCD display until button pressed.
-    * ${params}
-    * ${returns}`,
+  /**
+   *  Halt CPU & LCD display until button pressed.
+   * ${params}
+   * ${returns}`,
   JR: `
   /**
    * Unconditional jump to the relative address.
    * ${params}
    * ${returns}`,
   JR_C: `
-   /**
-    * Conditional jump to the relative address.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Conditional jump to the relative address.
+   * ${params}
+   * ${returns}`,
   CALL: `
   /**
    * Function call to the absolute address.
    * ${params}
    * ${returns}`,
   RST: `
-   /**
-    * Unconditional function call to the absolute fixed address
-    * ${params}
-    * ${returns}`,
+  /**
+   * Unconditional function call to the absolute fixed address
+   * ${params}
+   * ${returns}`,
   RET: `
   /**
    * Return from a function.
    * ${params}
    * ${returns}`,
   RETI: `
-   /**
-    * Return from a function.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Return from a function.
+   * ${params}
+   * ${returns}`,
   DI: `
-   /**
-    * Disables interrupt handling.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Disables interrupt handling.
+   * ${params}
+   * ${returns}`,
   EI: `
-   /**
-    * Enables interrupt handling.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Enables interrupt handling.
+   * ${params}
+   * ${returns}`,
   RLCA: `
-    /**
-    * Rotate A left. Old bit 7 to Carry flag.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Rotate A left. Old bit 7 to Carry flag.
+   * ${params}
+   * ${returns}`,
   RLA: `
-    /**
-     * Rotate A left through Carry flag.
-     * ${params}
-     * ${returns}
-`,
+  /**
+   * Rotate A left through Carry flag.
+   * ${params}
+   * ${returns}`,
   RRCA: `
-    /**
-    * Rotate A right. Old bit 0 to Carry flag.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Rotate A right. Old bit 0 to Carry flag.
+   * ${params}
+   * ${returns}`,
   RRA: `
-    /**
-     * Rotate A right through Carry flag.
-     * ${params}
-     * ${returns}
-`,
+  /**
+   * Rotate A right through Carry flag.
+   * ${params}
+   * ${returns}`,
   RLC: `
-    /**
-    * Rotate n left. Old bit 7 to Carry flag.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Rotate n left. Old bit 7 to Carry flag.
+   * ${params}
+   * ${returns}`,
   RL: `
-    /**
-     * Rotate n left through Carry flag.
-     * ${params}
-     * ${returns}
-`,
+  /**
+   * Rotate n left through Carry flag.
+   * ${params}
+   * ${returns}`,
   RRC: `
-    /**
-    * Rotate n right. Old bit 0 to Carry flag.
-     * ${params}
+  /**
+   * Rotate n right. Old bit 0 to Carry flag.
+   * ${params}
    * ${returns}`,
   RR: `
-    /**
-     * Rotate n right through Carry flag.
-     * ${params}
+  /**
+   * Rotate n right through Carry flag.
+   * ${params}
    * ${returns}`,
   SLA: `
-    /**
-    * Shift n left into Carry. LSB of n set to 0.
-     * ${params}
+  /**
+   * Shift n left into Carry. LSB of n set to 0.
+   * ${params}
    * ${returns}`,
   SRA: `
-    /**
-     * Shift n right into Carry. MSB doesn't change.
-     * ${params}
+  /**
+   * Shift n right into Carry. MSB doesn't change.
+   * ${params}
    * ${returns}`,
   SRL: `
-    /**
-    * Shift n right into Carry. MSB set to 0.
-     * ${params}
+  /**
+   * Shift n right into Carry. MSB set to 0.
+   * ${params}
    * ${returns}`,
   BIT: `
-    /**
-    * Test bit in register
-     * ${params}
+  /**
+   * Test bit in register
+   * ${params}
    * ${returns}`,
   SET: `
   /**
@@ -242,15 +237,15 @@ let docs = {
    * ${params}
    * ${returns}`,
   RES: `
-   /**
-    * Reset bit b in register r.
-     * ${params}
+  /**
+   * Reset bit b in register r.
+   * ${params}
    * ${returns}`,
   PREFIX: `
-   /**
-    * Execute a CB-prefixed instruction.
-    * ${params}
-    * ${returns}`,
+  /**
+   * Execute a CB-prefixed instruction.
+   * ${params}
+   * ${returns}`,
   ILLEGAL_D3: illegal,
   ILLEGAL_DB: illegal,
   ILLEGAL_DD: illegal,
@@ -421,27 +416,23 @@ const addOpcode = (instructionSet, mapping, opcodes, key) => {
       ${docs[mnemonic]}
       * Affected flags: ${flagsAffected.join(", ")}
       */
-      function ${opcode} (this: CPU): number {
+      function ${opcode} (this: CPU): byte {
         let condition: boolean = OpcodeMap['${key}'].call(this);
         if (!condition) {
-          // add the default increment to PC
-          this.PC.add(${bytes});
           return ${cycles[1]};
         }
-        // if condition passed, elapse larger number of m cycles
         return ${cycles[0]};
       };
       `;
     } else {
       opcodes += `
-      ${docs[mnemonic]}
-      * Affected flags: ${flagsAffected.join(", ")}
-      */
-      function ${opcode} (this: CPU): number {
-        OpcodeMap['${key}'].call(this);
-        this.PC.add(${bytes});
-        return ${cycles.join(" || ")};
-      };`;
+   ${docs[mnemonic]}
+   * Affected flags: ${flagsAffected.join(", ")}
+   */
+   function ${opcode} (this: CPU): byte {
+     OpcodeMap['${key}'].call(this);
+     return ${cycles.join(" || ")};
+   };`;
     }
     mapping += `${key}: ${opcode},\n`;
   }
@@ -463,8 +454,10 @@ const main = () => {
   cbmap += "}";
   fs.writeFileSync(
     path.join(__dirname, "generated", "z80.ts"),
-    `import Instructions from './Instructions';
+    `import { OpcodeMap } from './Map';
     import CPU from '../';
+    import { byte } from '../../Types';
+
      ${opcodes}
      ${map}
      ${cbmap}`
